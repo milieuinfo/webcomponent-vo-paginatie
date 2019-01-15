@@ -1,6 +1,6 @@
 import {LitElement, html} from '../../node_modules/vodomg-litelement/@polymer/lit-element/lit-element.js';
 
-class VoPaginatie extends LitElement {
+export class VoPaginatie extends LitElement {
     static get EVENTS() {
 		return {
             HAAL_PAGINA_OP: 'vo-paginatie-haal-pagina-op'
