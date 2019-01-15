@@ -1,4 +1,4 @@
-import {LitElement, html} from "../../node_modules/@polymer/lit-element/lit-element"
+import {LitElement, html} from "@polymer/lit-element"
 
 class VoPaginatie extends LitElement {
     static get EVENTS() {
@@ -20,10 +20,7 @@ class VoPaginatie extends LitElement {
             totaalAantalPaginas: {
                 type: Number,
                 attribute: 'totaal-aantal-paginas'
-            },
-            elementsOnPage: Number,
-            totalElements: Number,
-            _eerstePagina: Boolean
+            }
         }
     }
 
@@ -31,7 +28,7 @@ class VoPaginatie extends LitElement {
         return html`
             <button id="vorige" @click="${this._vorige}" ?disabled="${this._isEerstePagina()}" >&lt;</button> 
             <span>${this.huidigePagina}/${this.totaalAantalPaginas}<span>  
-            <button id="volgende" @click="${this._volgende}">&gt;</button>
+            <button id="volgende" @click="${this._volgende}" ?disabled="${this._isLaatstePagina()}">&gt;</button>
         `;
     }
 
@@ -43,11 +40,12 @@ class VoPaginatie extends LitElement {
     }
 
     _volgende() {
-        this.huidigePagina++;
+        if (this.huidigePagina < this.totaalAantalPaginas) {
+            this.huidigePagina++;
+        }
     }
 
     _isEerstePagina() {
-        console.log("check eerste pg");
         return this.huidigePagina == 0;
     }
 
