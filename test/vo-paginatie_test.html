@@ -23,18 +23,13 @@
 
         <script type="module">
             import '../vo-paginatie';
+            
             suite('vo-paginatie', () => {
-
                 const should = chai.should();
 
-                test('de vo-paginatie component is correct geconfigureerd', (done) => {
+                test('de vo-paginatie component is correct geconfigureerd', () => {
                     const element = fixture('vo-paginatie-fixture');
-					flush(() => {
-                        console.log(element);
-                        done();
-                    });
                 });
-
             });
         </script>
     </body>
