@@ -10,25 +10,39 @@ class VoPaginatie extends LitElement {
     
     static get properties() {
         return {
-            'huidige-pagina': Number,
-            'totaal-aantal-paginas': Number
+            huidigePagina: {
+                type: Number,
+                attribute: 'huidige-pagina'
+            },
+            totaalaantalpaginas: {
+                type: Number,
+                attribute: 'totaal-aantal-paginas'
+            }
         }
     }
 
     render() {
         return html`
-            <button id="vorige" @click="${this._vorige}">&lt;</button> 
-            <span>${this['huidige-pagina']}/${this['totaal-aantal-paginas']}<span>  
+            button id="vorige" @click="${this._vorige}">&lt;</button> 
+            <span>${this.huidigePagina}/${this.totaalaantalpaginas}<span>  
             <button id="volgende" @click="${this._volgende}">&gt;</button>
         `;
     }
 
     _vorige () {
-        this['huidige-pagina']--;
+        this.huidigePagina--;
     }
 
     _volgende() {
-        this['huidige-pagina']++;
+        this.huidigePagina++;
+    }
+
+    _isEerstePagina() {
+        return this.huidigepagina == 0;
+    }
+
+    _isLaatstePagina() {
+        return this.huidigepagina == this.totaalAantalPaginas;
     }
 }
 
