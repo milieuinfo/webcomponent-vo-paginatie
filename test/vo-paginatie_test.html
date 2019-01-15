@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+		<title>vo-paginatie test</title>
+
+		<script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+		<script src="../node_modules/mocha/mocha.js"></script>
+		<script src="../node_modules/wct-mocha/wct-mocha.js"></script>
+		<script src="../node_modules/@polymer/test-fixture/test-fixture.js"></script>
+		<script src="../node_modules/chai/chai.js"></script>
+        <script src="../node_modules/sinon/pkg/sinon.js"></script>
+    </head>
+
+    <body>
+        <test-fixture id="vo-paginatie-fixture">
+            <template>
+                    <vo-paginatie huidige-pagina="1" totaal-aantal-paginas="10"></vo-paginatie>
+            </template>
+        </test-fixture>
+
+        <script type="module">
+            import '../vo-paginatie';
+            suite('vo-paginatie', () => {
+
+                const should = chai.should();
+
+                test('de vo-paginatie component is correct geconfigureerd', (done) => {
+                    const element = fixture('vo-paginatie-fixture');
+					flush(() => {
+                        console.log(element);
+                        done();
+                    });
+                });
+
+            });
+        </script>
+    </body>
+</html>
