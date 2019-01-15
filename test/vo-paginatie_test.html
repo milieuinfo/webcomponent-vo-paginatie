@@ -17,7 +17,7 @@
     <body>
         <test-fixture id="vo-paginatie-fixture">
             <template>
-                    <vo-paginatie huidige-pagina="1" totaal-aantal-paginas="10"></vo-paginatie>
+                <vo-paginatie huidige-pagina="1" totaal-aantal-paginas="10"></vo-paginatie>
             </template>
         </test-fixture>
 
@@ -29,6 +29,17 @@
 
                 test('de vo-paginatie component is correct geconfigureerd', () => {
                     const element = fixture('vo-paginatie-fixture');
+                });
+
+                test('als gebruiker kan ik zien op welke pagina hij zit en hoeveel paginas er zijn', async () => {
+                    const element = fixture('vo-paginatie-fixture');
+                    await element.updateComplete;
+                    const huidigePaginaElement = element.shadowRoot.querySelector('#huidige_pagina');
+                    const totaalAantalPaginasElement = element.shadowRoot.querySelector('#totaal_aantal_paginas');
+                    should.exist(huidigePaginaElement);
+                    should.exist(totaalAantalPaginasElement);
+                    assert.equal(huidigePaginaElement.textContent, '1');
+                    assert.equal(totaalAantalPaginasElement.textContent, '10');
                 });
             });
         </script>
