@@ -40,24 +40,40 @@
                     const totaalAantalPaginasElement = element.shadowRoot.querySelector('#totaal_aantal_paginas');
                     should.exist(huidigePaginaElement);
                     should.exist(totaalAantalPaginasElement);
-                    assert.equal(huidigePaginaElement.textContent, '1');
-                    assert.equal(totaalAantalPaginasElement.textContent, '10');
+                    assert.equal(huidigePaginaElement.textContent, 1);
+                    assert.equal(totaalAantalPaginasElement.textContent, 10);
                 });
 
-                test('als gebruiker kan ik meteen naar de laatste pagina gaan', () => {
-
+                test('als gebruiker kan ik meteen naar de eerste en laatste pagina gaan', async () => {
+                    const element = fixture('vo-paginatie-fixture');
+                    await element.updateComplete;
+                    const eersteButton = element.shadowRoot.querySelector('#eerste');
+                    const laatsteButton = element.shadowRoot.querySelector('#laatste');
+                    assert.equal(element.huidigePagina, 1);
+                    laatsteButton.click();
+                    assert.equal(element.huidigePagina, 10);
+                    eersteButton.click();
+                    assert.equal(element.huidigePagina, 0);
                 });
 
-                test('als gebruiker kan ik meteen naar de eerste pagina gaan', () => {
-
+                test('als gebruiker kan ik niet naar de laatste pagina gaan als ik al op de laatste pagina zit', async () => {
+                    const element = fixture('vo-paginatie-fixture');
+                    await element.updateComplete;
+                    const laatsteButton = element.shadowRoot.querySelector('#laatste');
+                    assert.isFalse(laatsteButton.disabled);
+                    laatsteButton.click();
+                    await element.updateComplete;
+                    assert.isTrue(laatsteButton.disabled);
                 });
 
-                test('als gebruiker kan ik niet naar de laatste pagina gaan als ik al op de laatste pagina zit', () => {
-
-                });
-
-                test('als gebruiker kan ik niet naar de eerste pagina gaan als ik al op de eerste pagina zit', () => {
-
+                test('als gebruiker kan ik niet naar de eerste pagina gaan als ik al op de eerste pagina zit', async () => {
+                    const element = fixture('vo-paginatie-fixture');
+                    await element.updateComplete;
+                    const eersteButton = element.shadowRoot.querySelector('#eerste');
+                    assert.isFalse(eersteButton.disabled);
+                    eersteButton.click();
+                    await element.updateComplete;
+                    assert.isTrue(eersteButton.disabled);
                 });
 
 
