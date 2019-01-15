@@ -46,7 +46,7 @@
         </test-fixture>
 
         <script type="module">
-            import '../vo-paginatie';
+            import {VoPaginatie} from '../vo-paginatie';
             
             
             suite('vo-paginatie', () => {
@@ -176,13 +176,13 @@
                     assert.isTrue(laatsteButton.disabled);
                 });
 
-                test('als ik op de vorige knop click wordt een event gedispatched die het nieuwe paginanummer geeft', async () => {
+                test('als ik op de naar-vorige-pagina knop click wordt een event gedispatched die het nieuwe paginanummer geeft', async () => {
                     const element = fixture('vo-paginatie-fixture');
                 
                     await element.updateComplete;
 
                     return new Promise(resolve => {
-                        element.addEventListener('vo-paginatie-haal-pagina-op', () => {
+                        element.addEventListener(VoPaginatie.EVENTS.HAAL_PAGINA_OP, () => {
                             assert.equal(event.detail, 3);
                             resolve();
                         });
@@ -190,8 +190,51 @@
                         const vorigePaginaKnop = element.shadowRoot.querySelector('#vorige');
                         vorigePaginaKnop.click();
                     });   
- 
+                });
 
+                test('als ik op de naar-volgende-pagina knop click wordt een event gedispatched met het nieuwe paginanummer', async() => {
+                    const element = fixture('vo-paginatie-fixture');
+                    await element.updateComplete;
+
+                    return new Promise(resolve => {
+                        element.addEventListener(VoPaginatie.EVENTS.HAAL_PAGINA_OP, () => {
+                            assert.equal(event.detail, 5);
+                            resolve();
+                        });
+                    
+                        const volgendePaginaKnop = element.shadowRoot.querySelector('#volgende');
+                        volgendePaginaKnop.click();
+                    });   
+                });
+
+                test('als ik op de naar-eerste-pagina knop click wordt een event gedispatched met het nieuwe paginanummer', async() => {
+                    const element = fixture('vo-paginatie-fixture');
+                    await element.updateComplete;
+
+                    return new Promise(resolve => {
+                        element.addEventListener(VoPaginatie.EVENTS.HAAL_PAGINA_OP, () => {
+                            assert.equal(event.detail, 0);
+                            resolve();
+                        });
+                    
+                        const eerstePaginaKnop = element.shadowRoot.querySelector('#eerste');
+                        eerstePaginaKnop.click();
+                    });
+                });
+
+                test('als ik op de naar-laatste-pagina knop click wordt een event gedispatched met het nieuwe paginanummer', async() => {
+                    const element = fixture('vo-paginatie-fixture');
+                    await element.updateComplete;
+
+                    return new Promise(resolve => {
+                        element.addEventListener(VoPaginatie.EVENTS.HAAL_PAGINA_OP, () => {
+                            assert.equal(event.detail, 10);
+                            resolve();
+                        });
+                    
+                        const laatstePaginaKnop = element.shadowRoot.querySelector('#laatste');
+                        laatstePaginaKnop.click();
+                    });
                 });
                 
             });

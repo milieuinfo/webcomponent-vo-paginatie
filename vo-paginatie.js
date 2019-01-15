@@ -63,10 +63,12 @@ export class VoPaginatie extends LitElement {
 
     _eerstePagina() {
         this._setHuidigePagina(0);
+        this._dispatchHaalPaginaOpEvent(0);
     }
 
     _laatstePagina() {
         this._setHuidigePagina(this.totaalAantalPaginas);
+        this._dispatchHaalPaginaOpEvent(this.totaalAantalPaginas);
     }
 
     _setHuidigePagina(value) {
