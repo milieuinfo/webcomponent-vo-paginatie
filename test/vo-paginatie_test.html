@@ -41,7 +41,7 @@
 
         <test-fixture id="vo-paginatie-fixture-laatste-pagina">
             <template>
-                <vo-paginatie huidige-pagina="10" totaal-aantal-paginas="10"></vo-paginatie>
+                <vo-paginatie huidige-pagina="9" totaal-aantal-paginas="10"></vo-paginatie>
             </template>
         </test-fixture>
 
@@ -74,7 +74,7 @@
                     should.exist(huidigePaginaElement);
                     should.exist(totaalAantalPaginasElement);
                     assert.equal(huidigePaginaElement.textContent, 5);
-                    assert.equal(totaalAantalPaginasElement.textContent, 11);
+                    assert.equal(totaalAantalPaginasElement.textContent, 10);
                 });
 
                 test('als gebruiker kan ik meteen naar de eerste en laatste pagina gaan', async () => {
@@ -84,7 +84,7 @@
                     const laatsteButton = element.shadowRoot.querySelector('#laatste');
                     assert.equal(element.huidigePagina, 4);
                     laatsteButton.click();
-                    assert.equal(element.huidigePagina, 10);
+                    assert.equal(element.huidigePagina, 9);
                     eersteButton.click();
                     assert.equal(element.huidigePagina, 0);
                 });
@@ -140,14 +140,14 @@
                     assert.equal(huidigePaginaElement.textContent, '6');
                 });
 
-                test('als gebruiker kan ik niet naar de volgende pagina als al op de laatste pagina zit', async() => {
+                test('als gebruiker kan ik niet naar de volgende pagina als ik al op de laatste pagina zit', async() => {
                     const element = fixture('vo-paginatie-fixture-laatste-pagina');
                     await element.updateComplete;
                     const volgendeButton = element.shadowRoot.querySelector('#volgende');
                     assert.isTrue(volgendeButton.disabled);
                 });
 
-                test('als naar de eerste pagina navigeer wordt de naar-eerste-pagina knop en naar-vorige-pagina knop gedisabled', async() => {
+                test('als ik naar de eerste pagina navigeer wordt de naar-eerste-pagina knop en naar-vorige-pagina knop gedisabled', async() => {
                     const element = fixture('vo-paginatie-fixture-tweede-pagina');
                     await element.updateComplete;
 
@@ -175,8 +175,8 @@
                     await element.updateComplete;
 
                     const huidigePaginaElement = element.shadowRoot.querySelector('#huidige_pagina');
-                    assert.equal(huidigePaginaElement.textContent, '11');
-                    assert.equal(element.huidigePagina, 10);
+                    assert.equal(huidigePaginaElement.textContent, '10');
+                    assert.equal(element.huidigePagina, 9);
 
                     assert.isTrue(volgendePaginaKnop.disabled);
                     const laatsteButton = element.shadowRoot.querySelector("#laatste");
@@ -235,7 +235,7 @@
 
                     return new Promise(resolve => {
                         element.addEventListener(VoPaginatie.EVENTS.HAAL_PAGINA_OP, () => {
-                            assert.equal(event.detail, 10);
+                            assert.equal(event.detail, 9);
                             resolve();
                         });
                     

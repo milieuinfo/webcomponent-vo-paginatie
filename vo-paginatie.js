@@ -27,7 +27,7 @@ export class VoPaginatie extends LitElement {
         return html`
             <button id="eerste" @click="${this._eerstePagina}" ?disabled="${this._isEerstePagina()}">&lt;&lt;</button>
             <button id="vorige" @click="${this._vorige}" ?disabled="${this._isEerstePagina()}">&lt;</button>
-            <span id="huidige_pagina">${this.huidigePagina+1}</span>/<span id="totaal_aantal_paginas">${this.totaalAantalPaginas+1}</span>
+            <span id="huidige_pagina">${this.huidigePagina+1}</span>/<span id="totaal_aantal_paginas">${this.totaalAantalPaginas}</span>
             <button id="volgende" @click="${this._volgende}" ?disabled="${this._isLaatstePagina()}">&gt;</button>
             <button id="laatste" @click="${this._laatstePagina}" ?disabled="${this._isLaatstePagina()}">&gt;&gt;</button>
         `;
@@ -42,7 +42,7 @@ export class VoPaginatie extends LitElement {
     }
 
     _volgende() {
-        if (this.huidigePagina < this.totaalAantalPaginas) {
+        if (this.huidigePagina < this.totaalAantalPaginas - 1) {
             this.huidigePagina++;
             this._dispatchHaalPaginaOpEvent(this.huidigePagina);
         }
@@ -58,7 +58,7 @@ export class VoPaginatie extends LitElement {
     }
 
     _isLaatstePagina() {
-        return this.huidigePagina == this.totaalAantalPaginas;
+        return this.huidigePagina == this.totaalAantalPaginas - 1;
     }
 
     _eerstePagina() {
@@ -67,8 +67,9 @@ export class VoPaginatie extends LitElement {
     }
 
     _laatstePagina() {
-        this._setHuidigePagina(this.totaalAantalPaginas);
-        this._dispatchHaalPaginaOpEvent(this.totaalAantalPaginas);
+        let laatstePaginaNummer = this.totaalAantalPaginas - 1;
+        this._setHuidigePagina(laatstePaginaNummer);
+        this._dispatchHaalPaginaOpEvent(laatstePaginaNummer);
     }
 
     _setHuidigePagina(value) {
