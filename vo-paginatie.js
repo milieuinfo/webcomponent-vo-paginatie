@@ -10,11 +10,17 @@ class VoPaginatie extends LitElement {
     
     static get properties() {
         return {
-            'huidige-pagina': {
+            huidigePagina: {
                 type: Number,
-                value: 0
+                attribute: 'huidige-pagina',
+                hasChanged(newValue, oldValue) {
+                    return true;
+                }
             },
-            'totaal-aantal-paginas': Number
+            totaalAantalPaginas: {
+                type: Number,
+                attribute: 'totaal-aantal-paginas'
+            }
         }
     }
 
@@ -22,18 +28,31 @@ class VoPaginatie extends LitElement {
         return html`
             <button id="vorige" @click="${this._eerstePagina}" ?disabled="${this._isEerstePagina()}">&lt;&lt;</button>
             <button id="vorige" @click="${this._vorige}" ?disabled="${this._isEerstePagina()}">&lt;</button>
-            <span>${this['huidige-pagina']}/${this['totaal-aantal-paginas']}<span>
+            <span>${this.huidigePagina]}/${this.totaalAantalPaginas}<span>
             <button id="volgende" @click="${this._volgende}" ?disabled="${this._isLaatstePagina()}">&gt;</button>
             <button id="volgende" @click="${this._laatstePagina}" ?disabled="${this._isLaatstePagina()}">&gt;&gt;</button>
         `;
     }
 
+
     _vorige () {
-        this['huidige-pagina']--;
+        if (this.huidigePagina >= 0) {
+            this.dispatchEvent(new CustomEvent(VoPaginatie.EVENTS.VORIGE_PAGINA, {detail: this.huidigePagina - 1}));
+        }
     }
 
     _volgende() {
-        this['huidige-pagina']++;
+        if (this.huidigePagina < this.totaalAantalPaginas) {
+            this.dispatchEvent(new CustomEvent(VoPaginatie.EVENTS.VOLGENDE_PAGINA, {detail: this.huidigePagina + 1}));
+        }
+    }
+
+    _isEerstePagina() {
+        return this.huidigePagina == 0;
+    }
+
+    _isLaatstePagina() {
+        return this.huidigePagina == this.totaalAantalPaginas;
     }
 
     _eerstePagina() {
@@ -56,5 +75,6 @@ class VoPaginatie extends LitElement {
         this['huidige-pagina'] = value;
     }
 }
+
 
 customElements.define('vo-paginatie', VoPaginatie);
