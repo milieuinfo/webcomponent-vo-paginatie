@@ -14,7 +14,7 @@ class VoPaginatie extends LitElement {
                 type: Number,
                 attribute: 'huidige-pagina'
             },
-            totaalAantalpaginas: {
+            totaalAantalPaginas: {
                 type: Number,
                 attribute: 'totaal-aantal-paginas'
             }
@@ -24,7 +24,7 @@ class VoPaginatie extends LitElement {
     render() {
         return html`
             button id="vorige" @click="${this._vorige}">&lt;</button> 
-            <span>${this.huidigePagina}/${this.totaalAantalpaginas}<span>  
+            <span>${this.huidigePagina}/${this.totaalAantalPaginas}<span>  
             <button id="volgende" @click="${this._volgende}">&gt;</button>
         `;
     }
