@@ -55,8 +55,15 @@
                 test('de vo-paginatie component is correct geconfigureerd en properties worden correct doorgegeven', () => {
                     const element = fixture('vo-paginatie-fixture');
                     assert.equal(element.huidigePagina, 4);
-                    assert.equal(element.totaalAantalPaginas, 10);
-                    
+                    assert.equal(element.totaalAantalPaginas, 10);                   
+                });
+
+                test('de vo-paginatie component toont de nulde pagina als eerste pagina', async() => {
+                    const element = fixture('vo-paginatie-fixture-eerste-pagina');
+                    await element.updateComplete;
+                    assert.equal(element.huidigePagina, 0);
+                    const huidigePaginaElement = element.shadowRoot.querySelector('#huidige_pagina');
+                    assert.equal(huidigePaginaElement.textContent, 1);
                 });
 
                 test('als gebruiker kan ik zien op welke pagina hij zit en hoeveel paginas er zijn', async () => {
@@ -66,8 +73,8 @@
                     const totaalAantalPaginasElement = element.shadowRoot.querySelector('#totaal_aantal_paginas');
                     should.exist(huidigePaginaElement);
                     should.exist(totaalAantalPaginasElement);
-                    assert.equal(huidigePaginaElement.textContent, 4);
-                    assert.equal(totaalAantalPaginasElement.textContent, 10);
+                    assert.equal(huidigePaginaElement.textContent, 5);
+                    assert.equal(totaalAantalPaginasElement.textContent, 11);
                 });
 
                 test('als gebruiker kan ik meteen naar de eerste en laatste pagina gaan', async () => {
@@ -111,7 +118,7 @@
                     await element.updateComplete;
                     const huidigePaginaElement = element.shadowRoot.querySelector('#huidige_pagina');
                     assert.equal(element.huidigePagina, 3);
-                    assert.equal(huidigePaginaElement.textContent, '3');
+                    assert.equal(huidigePaginaElement.textContent, '4');
                 });
 
 
@@ -130,7 +137,7 @@
                     await element.updateComplete;
                     const huidigePaginaElement = element.shadowRoot.querySelector('#huidige_pagina');
                     assert.equal(element.huidigePagina, 5);
-                    assert.equal(huidigePaginaElement.textContent, '5');
+                    assert.equal(huidigePaginaElement.textContent, '6');
                 });
 
                 test('als gebruiker kan ik niet naar de volgende pagina als al op de laatste pagina zit', async() => {
@@ -149,7 +156,7 @@
                     await element.updateComplete;
 
                     const huidigePaginaElement = element.shadowRoot.querySelector('#huidige_pagina');
-                    assert.equal(huidigePaginaElement.textContent, '0');
+                    assert.equal(huidigePaginaElement.textContent, '1');
                     assert.equal(element.huidigePagina, 0);
 
                     assert.isTrue(vorigePaginaKnop.disabled);
@@ -168,7 +175,7 @@
                     await element.updateComplete;
 
                     const huidigePaginaElement = element.shadowRoot.querySelector('#huidige_pagina');
-                    assert.equal(huidigePaginaElement.textContent, '10');
+                    assert.equal(huidigePaginaElement.textContent, '11');
                     assert.equal(element.huidigePagina, 10);
 
                     assert.isTrue(volgendePaginaKnop.disabled);
