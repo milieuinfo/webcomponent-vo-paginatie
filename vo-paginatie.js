@@ -3,8 +3,7 @@ import {LitElement, html} from '../../node_modules/vodomg-litelement/@polymer/li
 class VoPaginatie extends LitElement {
     static get EVENTS() {
 		return {
-            VORIGE_PAGINA: 'vo-pagination-vorige',
-            VOLGENDE_PAGINA: 'vo-pagination-volgende'
+            HAAL_PAGINA_OP: 'vo-paginatie-haal-pagina-op'
 		}
     }
     
@@ -26,27 +25,34 @@ class VoPaginatie extends LitElement {
 
     render() {
         return html`
-            <button id="vorige" @click="${this._eerstePagina}" ?disabled="${this._isEerstePagina()}">&lt;&lt;</button>
+            <button id="eerste" @click="${this._eerstePagina}" ?disabled="${this._isEerstePagina()}">&lt;&lt;</button>
             <button id="vorige" @click="${this._vorige}" ?disabled="${this._isEerstePagina()}">&lt;</button>
-            <span>${this.huidigePagina]}/${this.totaalAantalPaginas}<span>
+            <span>${this.huidigePagina}/${this.totaalAantalPaginas}<span>
             <button id="volgende" @click="${this._volgende}" ?disabled="${this._isLaatstePagina()}">&gt;</button>
-            <button id="volgende" @click="${this._laatstePagina}" ?disabled="${this._isLaatstePagina()}">&gt;&gt;</button>
+            <button id="laatste" @click="${this._laatstePagina}" ?disabled="${this._isLaatstePagina()}">&gt;&gt;</button>
         `;
     }
 
 
     _vorige () {
-        if (this.huidigePagina >= 0) {
-            this.dispatchEvent(new CustomEvent(VoPaginatie.EVENTS.VORIGE_PAGINA, {detail: this.huidigePagina - 1}));
+        if (this.huidigePagina > 0) {
+            this.huidigePagina--;
+            this._haalPaginaOp(this.huidigePagina);
         }
     }
 
     _volgende() {
         if (this.huidigePagina < this.totaalAantalPaginas) {
-            this.dispatchEvent(new CustomEvent(VoPaginatie.EVENTS.VOLGENDE_PAGINA, {detail: this.huidigePagina + 1}));
+            this.huidigePagina++;
+            this._haalPaginaOp(this.huidigePagina);
         }
     }
 
+    _haalPaginaOp(paginaNummer) {
+        this.dispatchEvent(new CustomEvent(VoPaginatie.EVENTS.HAAL_PAGINA_OP, {detail: paginaNummer}));
+    }
+
+    
     _isEerstePagina() {
         return this.huidigePagina == 0;
     }
@@ -60,20 +66,21 @@ class VoPaginatie extends LitElement {
     }
 
     _laatstePagina() {
-        this._setHuidigePagina(this['totaal-aantal-paginas']);
+        this._setHuidigePagina(this.totaalAantalPaginas);
     }
 
     _isEerstePagina() {
-        return this['huidige-pagina'] == 0;
+        return this.huidigePagina == 0;
     }
 
     _isLaatstePagina() {
-        return this['huidige-pagina'] == this['totaal-aantal-paginas'];
+        return this.huidigePagina == this.totaalAantalPaginas;
     }
 
     _setHuidigePagina(value) {
-        this['huidige-pagina'] = value;
+        this.huidigePagina = value;
     }
+    
 }
 
 
