@@ -80,7 +80,7 @@ export class VoPaginatie extends LitElement {
      * @return {void}
      */
     _dispatchHaalPaginaOpEvent(paginaNummer) {
-        this.dispatchEvent(new CustomEvent(VoPaginatie.EVENTS.HAAL_PAGINA_OP, {detail: paginaNummer}));
+        this.dispatchEvent(new CustomEvent(VoPaginatie.EVENTS.HAAL_PAGINA_OP, {detail: paginaNummer, bubbles: true, composed: true}));
     }
 
     
