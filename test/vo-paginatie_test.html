@@ -29,6 +29,8 @@
 
                 test('de vo-paginatie component is correct geconfigureerd', () => {
                     const element = fixture('vo-paginatie-fixture');
+                    assert.equal(element.huidigePagina, 1);
+                    assert.equal(element.totaalAantalPaginas, 10);
                 });
 
                 test('als gebruiker kan ik zien op welke pagina hij zit en hoeveel paginas er zijn', async () => {
@@ -57,6 +59,19 @@
                 test('als gebruiker kan ik niet naar de eerste pagina gaan als ik al op de eerste pagina zit', () => {
 
                 });
+
+
+               test('als gebruiker kan ik naar de vorige pagina gaan', async() => {
+                    const element = fixture('vo-paginatie-fixture');
+                    await element.updateComplete;
+                    const vorigePaginaKnop = element.shadowRoot.querySelector('#vorige');
+                    vorigePaginaKnop.click();
+                    await element.updateComplete;
+                    const huidigePaginaElement = element.shadowRoot.querySelector('#huidige_pagina');
+                    assert.equal(element.huidigePagina, 0);
+                    assert.equal(huidigePaginaElement.textContent, '0');
+                });
+                
             });
         </script>
     </body>
