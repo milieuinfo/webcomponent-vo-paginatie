@@ -1,4 +1,4 @@
-import {LitElement, html} from "@polymer/lit-element"
+import {LitElement, html} from '../../node_modules/vodomg-litelement/@polymer/lit-element/lit-element.js';
 
 class VoPaginatie extends LitElement {
     static get EVENTS() {
