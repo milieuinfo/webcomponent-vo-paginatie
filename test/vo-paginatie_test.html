@@ -48,6 +48,7 @@
         <script type="module">
             import '../vo-paginatie';
             
+            
             suite('vo-paginatie', () => {
                 const should = chai.should();
 
@@ -173,6 +174,23 @@
                     assert.isTrue(volgendePaginaKnop.disabled);
                     const laatsteButton = element.shadowRoot.querySelector("#laatste");
                     assert.isTrue(laatsteButton.disabled);
+                });
+
+                test('als ik op de vorige knop click wordt een event gedispatched die het nieuwe paginanummer geeft', async () => {
+                    const element = fixture('vo-paginatie-fixture');
+                
+                    await element.updateComplete;
+
+                    return new Promise(resolve => {
+                        element.addEventListener('vo-paginatie-haal-pagina-op', () => {
+                            assert.equal(event.detail, 3);
+                            resolve();
+                        });
+                        
+                        const vorigePaginaKnop = element.shadowRoot.querySelector('#vorige');
+                        vorigePaginaKnop.click();
+                    });   
+ 
 
                 });
                 
