@@ -35,13 +35,13 @@ class VoPaginatie extends LitElement {
 
     _vorige () {
         if (this.huidigePagina >= 0) {
-            this.huidigePagina--;
+            this.dispatchEvent(new CustomEvent(VoPaginatie.EVENTS.VORIGE_PAGINA, {detail: this.huidigePagina - 1}));
         }
     }
 
     _volgende() {
         if (this.huidigePagina < this.totaalAantalPaginas) {
-            this.huidigePagina++;
+            this.dispatchEvent(new CustomEvent(VoPaginatie.EVENTS.VOLGENDE_PAGINA, {detail: this.huidigePagina + 1}));
         }
     }
 
