@@ -17,7 +17,19 @@
     <body>
         <test-fixture id="vo-paginatie-fixture">
             <template>
+                <vo-paginatie huidige-pagina="4" totaal-aantal-paginas="10"></vo-paginatie>
+            </template>
+        </test-fixture>
+
+        <test-fixture id="vo-paginatie-fixture-tweede-pagina">
+            <template>
                 <vo-paginatie huidige-pagina="1" totaal-aantal-paginas="10"></vo-paginatie>
+            </template>
+        </test-fixture>
+
+        <test-fixture id="vo-paginatie-fixture-voorlaatste-pagina">
+            <template>
+                <vo-paginatie huidige-pagina="9" totaal-aantal-paginas="10"></vo-paginatie>
             </template>
         </test-fixture>
 
@@ -27,10 +39,11 @@
             suite('vo-paginatie', () => {
                 const should = chai.should();
 
-                test('de vo-paginatie component is correct geconfigureerd', () => {
+                test('de vo-paginatie component is correct geconfigureerd en properties worden correct doorgegeven', () => {
                     const element = fixture('vo-paginatie-fixture');
-                    assert.equal(element.huidigePagina, 1);
+                    assert.equal(element.huidigePagina, 4);
                     assert.equal(element.totaalAantalPaginas, 10);
+                    
                 });
 
                 test('als gebruiker kan ik zien op welke pagina hij zit en hoeveel paginas er zijn', async () => {
@@ -40,7 +53,7 @@
                     const totaalAantalPaginasElement = element.shadowRoot.querySelector('#totaal_aantal_paginas');
                     should.exist(huidigePaginaElement);
                     should.exist(totaalAantalPaginasElement);
-                    assert.equal(huidigePaginaElement.textContent, 1);
+                    assert.equal(huidigePaginaElement.textContent, 4);
                     assert.equal(totaalAantalPaginasElement.textContent, 10);
                 });
 
@@ -49,7 +62,7 @@
                     await element.updateComplete;
                     const eersteButton = element.shadowRoot.querySelector('#eerste');
                     const laatsteButton = element.shadowRoot.querySelector('#laatste');
-                    assert.equal(element.huidigePagina, 1);
+                    assert.equal(element.huidigePagina, 4);
                     laatsteButton.click();
                     assert.equal(element.huidigePagina, 10);
                     eersteButton.click();
@@ -84,8 +97,56 @@
                     vorigePaginaKnop.click();
                     await element.updateComplete;
                     const huidigePaginaElement = element.shadowRoot.querySelector('#huidige_pagina');
-                    assert.equal(element.huidigePagina, 0);
+                    assert.equal(element.huidigePagina, 3);
+                    assert.equal(huidigePaginaElement.textContent, '3');
+                });
+
+                test('als gebruiker kan ik naar de volgende pagina gaan', async() => {
+                    const element = fixture('vo-paginatie-fixture');
+                    await element.updateComplete;
+                    const volgendePaginaKnop = element.shadowRoot.querySelector('#volgende');
+                    volgendePaginaKnop.click();
+                    await element.updateComplete;
+                    const huidigePaginaElement = element.shadowRoot.querySelector('#huidige_pagina');
+                    assert.equal(element.huidigePagina, 5);
+                    assert.equal(huidigePaginaElement.textContent, '5');
+                });
+
+                test('als ik op de tweede pagina zit, kan ik naar de vorige pagina gaan, maar daarna is de vorige en eerste knop gedisabled', async() => {
+                    const element = fixture('vo-paginatie-fixture-tweede-pagina');
+                    await element.updateComplete;
+
+                    const vorigePaginaKnop = element.shadowRoot.querySelector('#vorige');
+                    vorigePaginaKnop.click();
+                    await element.updateComplete;
+
+                    const huidigePaginaElement = element.shadowRoot.querySelector('#huidige_pagina');
                     assert.equal(huidigePaginaElement.textContent, '0');
+                    assert.equal(element.huidigePagina, 0);
+
+                    assert.isTrue(vorigePaginaKnop.disabled);
+
+                    const eersteButton = element.shadowRoot.querySelector('#eerste');
+                    assert.isTrue(eersteButton.disabled);
+                });
+
+                test('als ik op de voorlaatste pagina zit, kan ik naar de volgende pagina gaan, maar daarna is de volgende en laatste knop gedisabled', async() => {
+                    const element = fixture('vo-paginatie-fixture-voorlaatste-pagina');
+                    await element.updateComplete;
+
+                    const volgendePaginaKnop = element.shadowRoot.querySelector('#volgende');
+
+                    volgendePaginaKnop.click();
+                    await element.updateComplete;
+
+                    const huidigePaginaElement = element.shadowRoot.querySelector('#huidige_pagina');
+                    assert.equal(huidigePaginaElement.textContent, '10');
+                    assert.equal(element.huidigePagina, 10);
+
+                    assert.isTrue(volgendePaginaKnop.disabled);
+                    const laatsteButton = element.shadowRoot.querySelector("#laatste");
+                    assert.isTrue(laatsteButton.disabled);
+
                 });
                 
             });
