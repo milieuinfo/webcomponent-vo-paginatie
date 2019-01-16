@@ -60,6 +60,10 @@ export class VoPaginatie extends LitElement {
     }
 
 
+    /**
+     * Wordt gebruikt om naar de vorige pagina te navigeren.
+     * @return {void}
+     */
     _vorige () {
         if (this.huidigePagina > 0) {
             this.huidigePagina--;
@@ -67,6 +71,10 @@ export class VoPaginatie extends LitElement {
         }
     }
 
+    /**
+     * Wordt gebruikt om naar de volgende pagina te navigeren.
+     * @return {void}
+     */
     _volgende() {
         if (this.huidigePagina < this.totaalAantalPaginas - 1) {
             this.huidigePagina++;
@@ -112,12 +120,22 @@ export class VoPaginatie extends LitElement {
         this._dispatchHaalPaginaOpEvent(0);
     }
 
+    /**
+     * Zet huidige pagina gelijk aan de laastste pagina en stuurt een event om die op te halen
+     * 
+     * @return {void}
+     */
     _laatstePagina() {
         let laatstePaginaNummer = this.totaalAantalPaginas - 1;
         this._setHuidigePagina(laatstePaginaNummer);
         this._dispatchHaalPaginaOpEvent(laatstePaginaNummer);
     }
 
+    /**
+     * Zet de huidige pagina gelijk aan een waarde
+     * @param {*} value
+     * @return {void} 
+     */
     _setHuidigePagina(value) {
         this.huidigePagina = value;
     }
