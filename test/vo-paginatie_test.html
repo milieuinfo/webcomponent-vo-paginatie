@@ -189,7 +189,7 @@
                     await element.updateComplete;
 
                     return new Promise(resolve => {
-                        element.addEventListener(VoPaginatie.EVENTS.HAAL_PAGINA_OP, () => {
+                        element.addEventListener(VoPaginatie.EVENTS.HAAL_PAGINA_OP, (event) => {
                             assert.equal(event.detail, 3);
                             resolve();
                         });
@@ -204,7 +204,7 @@
                     await element.updateComplete;
 
                     return new Promise(resolve => {
-                        element.addEventListener(VoPaginatie.EVENTS.HAAL_PAGINA_OP, () => {
+                        element.addEventListener(VoPaginatie.EVENTS.HAAL_PAGINA_OP, (event) => {
                             assert.equal(event.detail, 5);
                             resolve();
                         });
@@ -219,7 +219,7 @@
                     await element.updateComplete;
 
                     return new Promise(resolve => {
-                        element.addEventListener(VoPaginatie.EVENTS.HAAL_PAGINA_OP, () => {
+                        element.addEventListener(VoPaginatie.EVENTS.HAAL_PAGINA_OP, (event) => {
                             assert.equal(event.detail, 0);
                             resolve();
                         });
@@ -234,7 +234,7 @@
                     await element.updateComplete;
 
                     return new Promise(resolve => {
-                        element.addEventListener(VoPaginatie.EVENTS.HAAL_PAGINA_OP, () => {
+                        element.addEventListener(VoPaginatie.EVENTS.HAAL_PAGINA_OP, (event) => {
                             assert.equal(event.detail, 9);
                             resolve();
                         });
