@@ -10,7 +10,7 @@ import {LitElement, html} from '../../node_modules/vodomg-litelement/@polymer/li
  * 
  * Event | Uitleg | Detail object
  * ------|--------|---------------
- * `vo-paginatie-haal-pagina-op` | wordt afgevuurd wanneer er een nieuwe pagina moet worden opgehaald. | `paginanummer`
+ * `vo-paginatie-paginanummer-changed` | wordt afgevuurd wanneer er een nieuwe pagina moet worden opgehaald. | `paginanummer`
  *
  * @customElement
  * @polymer
@@ -19,7 +19,7 @@ import {LitElement, html} from '../../node_modules/vodomg-litelement/@polymer/li
 export class VoPaginatie extends LitElement {
     static get EVENTS() {
 		return {
-            HAAL_PAGINA_OP: 'vo-paginatie-haal-pagina-op'
+            HAAL_PAGINA_OP: 'vo-paginatie-paginanummer-changed'
 		}
     }
     
