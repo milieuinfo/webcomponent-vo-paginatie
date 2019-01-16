@@ -19,7 +19,7 @@ import {LitElement, html} from '../../node_modules/vodomg-litelement/@polymer/li
 export class VoPaginatie extends LitElement {
     static get EVENTS() {
 		return {
-            HAAL_PAGINA_OP: 'vo-paginatie-paginanummer-changed'
+            PAGINANUMMER_CHANGED: 'vo-paginatie-paginanummer-changed'
 		}
     }
     
@@ -66,8 +66,8 @@ export class VoPaginatie extends LitElement {
      */
     _vorige () {
         if (this.huidigePagina > 0) {
-            this.huidigePagina--;
-            this._dispatchHaalPaginaOpEvent(this.huidigePagina);
+            this._setHuidigePagina(this.huidigePagina-1);
+            this._dispatchPaginanummerChangedEvent(this.huidigePagina);
         }
     }
 
@@ -77,8 +77,8 @@ export class VoPaginatie extends LitElement {
      */
     _volgende() {
         if (this.huidigePagina < this.totaalAantalPaginas - 1) {
-            this.huidigePagina++;
-            this._dispatchHaalPaginaOpEvent(this.huidigePagina);
+            this._setHuidigePagina(this.huidigePagina + 1);
+            this._dispatchPaginanummerChangedEvent(this.huidigePagina);
         }
     }
 
@@ -87,8 +87,8 @@ export class VoPaginatie extends LitElement {
      * 
      * @return {void}
      */
-    _dispatchHaalPaginaOpEvent(paginaNummer) {
-        this.dispatchEvent(new CustomEvent(VoPaginatie.EVENTS.HAAL_PAGINA_OP, {detail: paginaNummer, bubbles: true, composed: true}));
+    _dispatchPaginanummerChangedEvent(paginaNummer) {
+        this.dispatchEvent(new CustomEvent(VoPaginatie.EVENTS.PAGINANUMMER_CHANGED, {detail: paginaNummer, bubbles: true, composed: true}));
     }
 
     
@@ -117,7 +117,7 @@ export class VoPaginatie extends LitElement {
      */
     _eerstePagina() {
         this._setHuidigePagina(0);
-        this._dispatchHaalPaginaOpEvent(0);
+        this._dispatchPaginanummerChangedEvent(0);
     }
 
     /**
@@ -128,7 +128,7 @@ export class VoPaginatie extends LitElement {
     _laatstePagina() {
         let laatstePaginaNummer = this.totaalAantalPaginas - 1;
         this._setHuidigePagina(laatstePaginaNummer);
-        this._dispatchHaalPaginaOpEvent(laatstePaginaNummer);
+        this._dispatchPaginanummerChangedEvent(laatstePaginaNummer);
     }
 
     /**
