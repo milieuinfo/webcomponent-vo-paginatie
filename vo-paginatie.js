@@ -46,7 +46,7 @@ export class VoPaginatie extends LitElement {
     }
 
     /**
-     * Rendert het element
+     * Rendert het element.
      * @return {TemplateResult}
      */
     render() {
@@ -59,6 +59,15 @@ export class VoPaginatie extends LitElement {
         `;
     }
 
+    /**
+     * Wordt aangeroepen wanneer een propertie gewijzigd werd
+     * @param {*} changedProperties 
+     */
+    updated(changedProperties) {
+        if (changedProperties.has('huidigePagina')) {
+            this._dispatchPaginanummerChangedEvent(this.huidigePagina);
+        }
+    }
 
     /**
      * Wordt gebruikt om naar de vorige pagina te navigeren.
@@ -66,8 +75,7 @@ export class VoPaginatie extends LitElement {
      */
     _vorige () {
         if (this.huidigePagina > 0) {
-            this._setHuidigePagina(this.huidigePagina-1);
-            this._dispatchPaginanummerChangedEvent(this.huidigePagina);
+            this.huidigePagina--;
         }
     }
 
@@ -77,20 +85,9 @@ export class VoPaginatie extends LitElement {
      */
     _volgende() {
         if (this.huidigePagina < this.totaalAantalPaginas - 1) {
-            this._setHuidigePagina(this.huidigePagina + 1);
-            this._dispatchPaginanummerChangedEvent(this.huidigePagina);
+            this.huidigePagina++;
         }
     }
-
-    /**
-     * Dispatcht een VoPaginatie event
-     * 
-     * @return {void}
-     */
-    _dispatchPaginanummerChangedEvent(paginaNummer) {
-        this.dispatchEvent(new CustomEvent(VoPaginatie.EVENTS.PAGINANUMMER_CHANGED, {detail: paginaNummer, bubbles: true, composed: true}));
-    }
-
     
     /**
      * checkt of de huidige getoonde pagina de eerste pagina is.
@@ -116,8 +113,7 @@ export class VoPaginatie extends LitElement {
      * @return {void}
      */
     _eerstePagina() {
-        this._setHuidigePagina(0);
-        this._dispatchPaginanummerChangedEvent(0);
+        this.huidigePagina = 0;
     }
 
     /**
@@ -126,18 +122,17 @@ export class VoPaginatie extends LitElement {
      * @return {void}
      */
     _laatstePagina() {
-        let laatstePaginaNummer = this.totaalAantalPaginas - 1;
-        this._setHuidigePagina(laatstePaginaNummer);
-        this._dispatchPaginanummerChangedEvent(laatstePaginaNummer);
+        const laatstePaginaNummer = this.totaalAantalPaginas - 1;
+        this.huidigePagina = laatstePaginaNummer;
     }
 
     /**
-     * Zet de huidige pagina gelijk aan een waarde
-     * @param {*} value
-     * @return {void} 
+     * Dispatcht een VoPaginatie event
+     * 
+     * @return {void}
      */
-    _setHuidigePagina(value) {
-        this.huidigePagina = value;
+    _dispatchPaginanummerChangedEvent(paginaNummer) {
+        this.dispatchEvent(new CustomEvent(VoPaginatie.EVENTS.PAGINANUMMER_CHANGED, {detail: paginaNummer, bubbles: true, composed: true}));
     }
     
 }

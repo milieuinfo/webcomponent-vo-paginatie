@@ -109,8 +109,7 @@
                     assert.isTrue(eersteButton.disabled);
                 });
 
-
-               test('als gebruiker kan ik naar de vorige pagina gaan', async() => {
+                test('als gebruiker kan ik naar de vorige pagina gaan', async() => {
                     const element = fixture('vo-paginatie-fixture');
                     await element.updateComplete;
                     const vorigePaginaKnop = element.shadowRoot.querySelector('#vorige');
@@ -120,7 +119,6 @@
                     assert.equal(element.huidigePagina, 3);
                     assert.equal(huidigePaginaElement.textContent, '4');
                 });
-
 
                 test('als gebruiker kan ik niet naar de vorige pagina gaan als ik op de eerste pagina zit', async() => {
                     const element = fixture('vo-paginatie-fixture-eerste-pagina');
@@ -243,7 +241,23 @@
                         laatstePaginaKnop.click();
                     });
                 });
-                
+
+                test('wanneer de huidige pagina van buitenaf wijzigt, wordt een event gedispatched met het nieuwe paginanummer', async() => {
+                    const element = fixture('vo-paginatie-fixture');
+                    const huidigePagina = 1;
+                    const volgendePagina = 2;
+                    element.huidigePagina = 1;
+                    await element.updateComplete;
+
+                    return new Promise(resolve => {
+                        element.addEventListener(VoPaginatie.EVENTS.PAGINANUMMER_CHANGED, (event) => {
+                            assert.equal(event.detail, volgendePagina);
+                            resolve();
+                        });
+                    
+                        element.huidigePagina = volgendePagina;
+                    });
+                });
             });
         </script>
     </body>
