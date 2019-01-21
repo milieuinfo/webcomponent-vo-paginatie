@@ -45,6 +45,12 @@
             </template>
         </test-fixture>
 
+        <test-fixture id="vo-paginatie-fixture-zonder-paginas">
+            <template>
+                <vo-paginatie huidige-pagina="9" totaal-aantal-paginas="0"></vo-paginatie>
+            </template>
+        </test-fixture>
+
         <script type="module">
             import {VoPaginatie} from '../vo-paginatie';
             
@@ -257,6 +263,22 @@
                     
                         element.huidigePagina = volgendePagina;
                     });
+                });
+
+                test('Wanneer het totale aantal paginas nul is, wordt ook nul als huidige pagina getoond en zijn de naar-vorige-pagina en naar-eerste-pagina knopppen gedisabled' , async() => {
+                    const element = fixture('vo-paginatie-fixture-zonder-paginas');
+                    await element.updateComplete;
+
+                    assert.equal(element.huidigePagina, -1);
+
+                    const huidigePaginaElement = element.shadowRoot.querySelector('#huidige_pagina');
+                    assert.equal(huidigePaginaElement.textContent, 0);
+
+                    const vorigePaginaKnop = element.shadowRoot.querySelector('#vorige');
+                    assert.isTrue(vorigePaginaKnop.disabled);
+
+                    const eersteButton = element.shadowRoot.querySelector('#eerste');
+                    assert.isTrue(eersteButton.disabled);
                 });
             });
         </script>

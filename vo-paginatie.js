@@ -50,6 +50,9 @@ export class VoPaginatie extends LitElement {
      * @return {TemplateResult}
      */
     render() {
+        if (this.totaalAantalPaginas == 0) {
+            this.huidigePagina = -1;
+        }
         return html`
             <button id="eerste" @click="${this._eerstePagina}" ?disabled="${this._isEerstePagina()}">&lt;&lt;</button>
             <button id="vorige" @click="${this._vorige}" ?disabled="${this._isEerstePagina()}">&lt;</button>
@@ -68,6 +71,7 @@ export class VoPaginatie extends LitElement {
             this._dispatchPaginanummerChangedEvent(this.huidigePagina);
         }
     }
+
 
     /**
      * Wordt gebruikt om naar de vorige pagina te navigeren.
@@ -95,7 +99,7 @@ export class VoPaginatie extends LitElement {
      * @return {boolean}
      */
     _isEerstePagina() {
-        return this.huidigePagina == 0;
+        return this.huidigePagina <= 0;
     }
 
     /**
