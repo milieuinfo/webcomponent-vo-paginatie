@@ -300,6 +300,22 @@
                     assert.isTrue(vorigePaginaKnop.disabled);
                     assert.isTrue(eersteButton.disabled);
                 });
+
+                test('Wanneer de huidige pagina groter wordt dan het totaal aantal paginas, wordt de huidige pagina gereset naar de laatste pagina' , async() => {
+                    const element = fixture('vo-paginatie-fixture-zonder-paginas');
+                    element.totaalAantalPaginas = 2;
+                    element.huidigePagina = 1;
+
+                    await element.updateComplete;
+                    const huidigePaginaElement = element.shadowRoot.querySelector('#huidige_pagina');
+                    assert.equal(element.huidigePagina, 1);
+                    assert.equal(huidigePaginaElement.textContent, 2);
+
+                    element.totaalAantalPaginas = 1;
+                    await element.updateComplete;
+                    assert.equal(element.huidigePagina, 0);
+                    assert.equal(huidigePaginaElement.textContent, 1);
+                });
             });
         </script>
     </body>

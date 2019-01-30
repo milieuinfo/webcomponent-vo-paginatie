@@ -142,10 +142,12 @@ export class VoPaginatie extends LitElement {
     }
 
     _begrensHuidigePagina() {
-        if (this.totaalAantalPaginas <= 0) {
+        if(this.totaalAantalPaginas <= 0) {
             this.huidigePagina = -1;
+        } else if(this.totaalAantalPaginas <= this.huidigePagina) {
+            this.huidigePagina = Math.max(-1, this.totaalAantalPaginas - 1);
         } else {
-            this.huidigePagina = this.huidigePagina >= 0 ? this.huidigePagina : 0;
+            this.huidigePagina = Math.max(0, this.huidigePagina);
         }
     }
 }
