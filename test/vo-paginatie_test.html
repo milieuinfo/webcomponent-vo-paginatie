@@ -280,6 +280,42 @@
                     const eersteButton = element.shadowRoot.querySelector('#eerste');
                     assert.isTrue(eersteButton.disabled);
                 });
+
+                test('Wanneer het totale aantal paginas niet nul is, wordt de huidige pagina begrensd op 0 indien de huidige pagina voorheen -1 was' , async() => {
+                    const element = fixture('vo-paginatie-fixture-zonder-paginas');
+
+                    await element.updateComplete;
+                    const huidigePaginaElement = element.shadowRoot.querySelector('#huidige_pagina');
+                    const vorigePaginaKnop = element.shadowRoot.querySelector('#vorige');
+                    const eersteButton = element.shadowRoot.querySelector('#eerste');
+                    assert.equal(element.huidigePagina, -1);
+                    assert.equal(huidigePaginaElement.textContent, 0);
+                    assert.isTrue(vorigePaginaKnop.disabled);
+                    assert.isTrue(eersteButton.disabled);
+
+                    element.totaalAantalPaginas = 2;
+                    await element.updateComplete;
+                    assert.equal(element.huidigePagina, 0);
+                    assert.equal(huidigePaginaElement.textContent, 1);
+                    assert.isTrue(vorigePaginaKnop.disabled);
+                    assert.isTrue(eersteButton.disabled);
+                });
+
+                test('Wanneer de huidige pagina groter wordt dan het totaal aantal paginas, wordt de huidige pagina gereset naar de laatste pagina' , async() => {
+                    const element = fixture('vo-paginatie-fixture-zonder-paginas');
+                    element.totaalAantalPaginas = 2;
+                    element.huidigePagina = 1;
+
+                    await element.updateComplete;
+                    const huidigePaginaElement = element.shadowRoot.querySelector('#huidige_pagina');
+                    assert.equal(element.huidigePagina, 1);
+                    assert.equal(huidigePaginaElement.textContent, 2);
+
+                    element.totaalAantalPaginas = 1;
+                    await element.updateComplete;
+                    assert.equal(element.huidigePagina, 0);
+                    assert.equal(huidigePaginaElement.textContent, 1);
+                });
             });
         </script>
     </body>
