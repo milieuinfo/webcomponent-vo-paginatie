@@ -248,21 +248,21 @@
                     });
                 });
 
-                test('wanneer de huidige pagina van buitenaf wijzigt, wordt een event gedispatched met het nieuwe paginanummer', async() => {
+                test('wanneer de huidige pagina van buitenaf wijzigt, wordt geen event gedispatched met het nieuwe paginanummer', async() => {
                     const element = fixture('vo-paginatie-fixture');
+                    let paginaNumberChangedEventCalled = 0;
+                    element.addEventListener(VoPaginatie.EVENTS.PAGINANUMMER_CHANGED, (event) => {
+                        paginaNumberChangedEventCalled++;  
+                    });
                     const huidigePagina = 1;
                     const volgendePagina = 2;
                     element.huidigePagina = 1;
                     await element.updateComplete;
 
-                    return new Promise(resolve => {
-                        element.addEventListener(VoPaginatie.EVENTS.PAGINANUMMER_CHANGED, (event) => {
-                            assert.equal(event.detail, volgendePagina);
-                            resolve();
-                        });
-                    
-                        element.huidigePagina = volgendePagina;
-                    });
+                    element.huidigePagina = volgendePagina;
+                    await element.updateComplete;
+
+                    assert.equal(paginaNumberChangedEventCalled, 0);
                 });
 
                 test('Wanneer het totale aantal paginas nul is, wordt ook nul als huidige pagina getoond en zijn de naar-vorige-pagina en naar-eerste-pagina knopppen gedisabled' , async() => {
@@ -329,20 +329,6 @@
                     assert.equal(paginaNumberChangedEventCalled, 0);
                 });
 
-                test('Wanneer de paginatie component de eerste keer gezet wordt, mag er geen PAGINANUMMER_CHANGED event gedispatched worden', async() => {
-                    const element = fixture('vo-paginatie-fixture-eerste-pagina');
-                    let paginaNumberChangedEventCalled = 0;
-                    element.addEventListener(VoPaginatie.EVENTS.PAGINANUMMER_CHANGED, (event) => {
-                        paginaNumberChangedEventCalled++;  
-                    });
-                        
-                    await element.updateComplete;
-
-                    element.huidigePagina = 0;
-                    await element.updateComplete;
-
-                    assert.equal(paginaNumberChangedEventCalled, 0);
-                });
             });
         </script>
     </body>

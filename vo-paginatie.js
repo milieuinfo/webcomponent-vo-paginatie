@@ -65,12 +65,6 @@ export class VoPaginatie extends LitElement {
      * @param {*} changedProperties 
      */
     updated(changedProperties) {
-        if (changedProperties.has('huidigePagina')) {
-            if (changedProperties.get('huidigePagina') != undefined && changedProperties.get('huidigePagina') != this.huidigePagina) {   
-               this._dispatchPaginanummerChangedEvent(this.huidigePagina);
-            }
-        }
-
         if (changedProperties.has('totaalAantalPaginas')) {
             this._begrensHuidigePagina();
         }
@@ -83,7 +77,7 @@ export class VoPaginatie extends LitElement {
      */
     _vorige () {
         if (this.huidigePagina > 0) {
-            this.huidigePagina--;
+            this._wijzigPaginanummerEnDispatchPaginanummerChangedEvent(this.huidigePagina - 1);
         }
     }
 
@@ -93,7 +87,7 @@ export class VoPaginatie extends LitElement {
      */
     _volgende() {
         if (this.huidigePagina < this.totaalAantalPaginas - 1) {
-            this.huidigePagina++;
+            this._wijzigPaginanummerEnDispatchPaginanummerChangedEvent(this.huidigePagina + 1);
         }
     }
     
@@ -121,7 +115,7 @@ export class VoPaginatie extends LitElement {
      * @return {void}
      */
     _eerstePagina() {
-        this.huidigePagina = 0;
+        this._wijzigPaginanummerEnDispatchPaginanummerChangedEvent(0);
     }
 
     /**
@@ -130,8 +124,18 @@ export class VoPaginatie extends LitElement {
      * @return {void}
      */
     _laatstePagina() {
-        const laatstePaginaNummer = this.totaalAantalPaginas - 1;
-        this.huidigePagina = laatstePaginaNummer;
+        this._wijzigPaginanummerEnDispatchPaginanummerChangedEvent(this.totaalAantalPaginas - 1);
+    }
+
+    /**
+     * Wijzig paginanummer en dispatch event
+     * 
+     * @param {*} paginaNummer 
+     */
+
+    _wijzigPaginanummerEnDispatchPaginanummerChangedEvent(paginanummer) {
+        this.huidigePagina = paginanummer;
+        this._dispatchPaginanummerChangedEvent(this.huidigePagina);
     }
 
     /**
