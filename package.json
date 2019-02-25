@@ -6,7 +6,7 @@
   },
   "homepage": "https://github.com/milieuinfo/webcomponent-vo-paginatie#readme",
   "name": "vo-paginatie",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "directories": {
     "test": "test",
     "demo": "demo"
