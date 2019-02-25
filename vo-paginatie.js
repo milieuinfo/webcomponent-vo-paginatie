@@ -66,7 +66,9 @@ export class VoPaginatie extends LitElement {
      */
     updated(changedProperties) {
         if (changedProperties.has('huidigePagina')) {
-            this._dispatchPaginanummerChangedEvent(this.huidigePagina);
+            if (changedProperties.get('huidigePagina') != undefined && changedProperties.get('huidigePagina') != this.huidigePagina) {   
+               this._dispatchPaginanummerChangedEvent(this.huidigePagina);
+            }
         }
 
         if (changedProperties.has('totaalAantalPaginas')) {

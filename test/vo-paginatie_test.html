@@ -316,6 +316,18 @@
                     assert.equal(element.huidigePagina, 0);
                     assert.equal(huidigePaginaElement.textContent, 1);
                 });
+
+
+                test('Wanneer de paginatie component de eerste keer gezet wordt, mag er geen PAGINANUMMER_CHANGED event gedispatched worden', async() => {
+                    const element = fixture('vo-paginatie-fixture-eerste-pagina');
+                    let paginaNumberChangedEventCalled = 0;
+                    element.addEventListener(VoPaginatie.EVENTS.PAGINANUMMER_CHANGED, (event) => {
+                        paginaNumberChangedEventCalled++;  
+                    });
+                        
+                    await element.updateComplete;
+                    assert.equal(paginaNumberChangedEventCalled, 0);
+                });
             });
         </script>
     </body>
